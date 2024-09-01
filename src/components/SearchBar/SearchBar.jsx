@@ -1,35 +1,48 @@
-import css from './SearchBar.module.css';
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
+import { FaSearch } from "react-icons/fa";
+import css from "../SearchBar/SearchBar.module.css";
 
-function SearchBar({ onSearch }) {
-  const handleSubmit = event => {
+export default function SearchBar({ onSubmit }) {
+  const notify = () =>
+    toast("Please, fill in the input field", {
+      icon: "⌨️",
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
+
+  function handleSubmit(event) {
     event.preventDefault();
+    const form = event.target;
+    const value = form.elements.search.value;
 
-    const searchValue = event.currentTarget.search.value.trim();
+    if (!value) notify();
 
-    if (searchValue === '') {
-      toast.error('Необхідно вести текст для пошуку зображення');
-    } else {
-      onSearch(searchValue);
-    }
-  };
+    onSubmit(value);
+    form.reset();
+  }
 
   return (
     <header className={css.header}>
-      <form onSubmit={handleSubmit}>
-        <input
-          className={css.inputSerchValue}
-          name="search"
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-        <button type="submit">Search</button>
-        <Toaster position="bottom-center" reverseOrder={false} />
+      <Toaster position="top-center" />
+      <form className={css.form} onSubmit={handleSubmit}>
+        <div className={css.inputIconWrapper}>
+          <FaSearch className={css.icon} />
+          <input
+            className={css.input}
+            type="text"
+            name="search"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+          />
+        </div>
+        <button className={css.button} type="submit">
+          Search
+        </button>
       </form>
     </header>
   );
 }
-
-export default SearchBar;

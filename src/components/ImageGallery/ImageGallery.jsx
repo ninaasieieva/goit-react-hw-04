@@ -1,4 +1,4 @@
-import css from "./ImageGallery.module.css";
+import css from "../ImageGallery/ImageGallery.module.css";
 import ImageCard from "../ImageCard/ImageCard";
 
 export default function ImageGallery({ images, onOpenModal, onDataForModal }) {
